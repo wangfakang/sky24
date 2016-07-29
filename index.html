@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Sky24 by wangfakang</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Sky24</h1>
+        <p class="header">tengine sysyguard module </p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/wangfakang/sky24/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/wangfakang/sky24/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/wangfakang/sky24">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/wangfakang">wangfakang</a></p>
+
+
+      </header>
+      <section>
+        <p><code>tengine的sysguard模块解析：</code>   </p>
+
+<h1>
+<a id="1sysguard模块简单介绍--" class="anchor" href="#1sysguard%E6%A8%A1%E5%9D%97%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D--" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>1.sysguard模块简单介绍：  </h1>
+
+<p>sysguard模块可以监控当前tengine所在的机器的内存、负载、以及响应RT时间，然后用户可以设置各个监控指标的阈值，当触发了阈值的时候可以根据执行用户自己的
+定义的动作。</p>
+
+<h1>
+<a id="2sysguard模块简单配置---" class="anchor" href="#2sysguard%E6%A8%A1%E5%9D%97%E7%AE%80%E5%8D%95%E9%85%8D%E7%BD%AE---" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2.sysguard模块简单配置：   </h1>
+
+<div class="highlight highlight-source-c"><pre>server {
+    sysguard on;
+    sysguard_mode or;
+
+    sysguard_load load=<span class="pl-c1">10</span> action=/loadlimit;
+    sysguard_mem <span class="pl-c1">free</span>=100M action=/freelimit;
+    sysguard_rt rt=<span class="pl-c1">0.01</span> period=5s;
+
+    location /loadlimit {
+        <span class="pl-k">return</span> <span class="pl-c1">503</span>;
+    }
+
+    location /swaplimit {
+        <span class="pl-k">return</span> <span class="pl-c1">503</span>;
+    }
+
+    location /freelimit {
+        <span class="pl-k">return</span> <span class="pl-c1">503</span>;
+    }
+
+}
+</pre></div>
+
+<ul>
+<li>sysguard_load： 当前系统负载保护指令</li>
+<li>sysguard_mem： 当前系统内存保护</li>
+<li>sysguard_rt： 响应时间控制</li>
+</ul>
+
+<h1>
+<a id="3注意----" class="anchor" href="#3%E6%B3%A8%E6%84%8F----" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3.注意：    </h1>
+
+<p>当配置了sysguard_rt后，最好不要配置action，采用默认的动作（返回503）。如果自己配置了actionde
+ 话当rt超过了阈值后就无法恢复了。原因也很简单但你配置了action为另外一个location的时候则此时超
+ 过阈值的时候就会去到你配置的location，而sysguard_rt是在log阶段才更新其rt，那么就导致你保护的
+ location的rt一直无法更新。</p>
+
+<p>　</p>
+
+<h1>
+<a id="欢迎一起交流学习-" class="anchor" href="#%E6%AC%A2%E8%BF%8E%E4%B8%80%E8%B5%B7%E4%BA%A4%E6%B5%81%E5%AD%A6%E4%B9%A0-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>欢迎一起交流学习 </h1>
+
+<p>在使用中有任何问题，欢迎反馈给我，可以用以下联系方式跟我交流</p>
+
+<ul>
+<li>邮件(1031379296#qq.com, 把#换成@)</li>
+<li>QQ: 1031379296</li>
+<li>weibo: <a href="http://weibo.com/u/2786211992/home">@王发康</a>
+</li>
+</ul>
+
+<h1>
+<a id="thx" class="anchor" href="#thx" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Thx</h1>
+
+<ul>
+<li>chunshengsterATgmail.com</li>
+</ul>
+
+<h1>
+<a id="author" class="anchor" href="#author" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Author</h1>
+
+<ul>
+<li>Linux\nginx\golang\c\c++爱好者</li>
+<li>欢迎一起交流  一起学习# </li>
+<li>Others say good and Others good</li>
+</ul>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
